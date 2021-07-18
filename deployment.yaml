@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: trade-deployment
+spec:
+    replicas: 2
+    selector:
+       matchLabels:
+          app: trade-app
+    template:
+       metadata:
+          labels:
+             app: trade-app
+       spec:
+          containers:
+          - name: trade-app
+            image: orensimple/trade-core-app:latest
+            imagePullPolicy: "Always"
+            ports:
+              - name: web 
+                containerPort: 80
