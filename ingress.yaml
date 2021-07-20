@@ -5,16 +5,14 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/rewrite-target: /$2
+  name: rewrite
+  namespace: default
 spec:
   rules:
   -  host: "arch.homework"
      http:
       paths:
-        - path: /otusapp/orensimple
+        - path: /otusapp/orensimple(/|$)(.*)
           backend:
             serviceName: trade-service
-            servicePort: 9000
-        - path: /
-          backend:
-            serviceName: trade-service
-            servicePort: 9000
+            servicePort: 8080
