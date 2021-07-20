@@ -5,7 +5,7 @@
 `kubectl apply -f`
 
 ## Checkout
-(http://arch.homework/otusapp/orensimple/health) && (http://arch.homework/health)
+(http://arch.homework/otusapp/orensimple/health)
 
 ## About
 Docker образ приложения
