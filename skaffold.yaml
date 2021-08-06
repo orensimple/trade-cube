@@ -4,8 +4,8 @@ metadata:
   name: skaffold
 build:
   artifacts:
-  - image: orensimple/trade-app:latest
-    context: orensimple/trade-app:latest
+  - image: orensimple/trade-core-app:latest
+    context: orensimple/trade-core-app:latest
 deploy:
   kubectl:
     manifests:
