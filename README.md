@@ -30,6 +30,7 @@ Ingress
 trade.postman_collection.json
 (https://github.com/orensimple/trade-cube/blob/main/trade.postman_collection.json)
 
+
 ## About
 Docker образ приложения
 (https://hub.docker.com/repository/docker/orensimple/trade-core-app)
