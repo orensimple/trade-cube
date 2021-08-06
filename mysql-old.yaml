@@ -1,0 +1,17 @@
+fullnameOverride: trade-mysql7
+
+auth: 
+  rootPassword: passwd
+  database: trade
+
+primary:
+  service:
+    type: NodePort
+    port: 3306
+  persistence:
+    enabled: true
+    size: 1Gi
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 250m

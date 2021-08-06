@@ -1,0 +1,76 @@
+# Source: hello-chart/templates/initdb.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "initdb"
+spec:
+  template:
+    metadata:
+      name: "initdb"
+    spec:
+      restartPolicy: Never
+      initContainers:
+        - name: check-db-ready
+          image: mysql:latest
+          env:
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: trade-db-secret
+                  key: db_user
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: trade-db-secret
+                  key: db_password
+          command:
+           - sh
+           - "-c"
+           - |
+           - "until mysql --host=trade-mysql7 --user={MYSQL_USER} --password={MYSQL_PASSWORD} --execute=\"SELECT 1;\"; do echo waiting for mysql; sleep 2; done;" 
+      containers:
+      - name: initdb
+        image: mysql:latest
+        env:
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                name: trade-db-secret
+                key: db_user
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: trade-db-secret
+                key: db_password
+        command:
+          - sh
+          - "-c"
+          - |
+            mysql --host=trade-mysql7 --user=$MYSQL_USER --password=$MYSQL_PASSWORD <<'EOF'
+              use trade;
+              create table users
+              (
+                  id         varchar(36)                         not null,
+                  email      varchar(64)                         not null,
+                  password   varchar(64)                         not null,
+                  phone      varchar(20)                         null,
+                  first_name varchar(32)                         not null,
+                  last_name  varchar(32)                         not null,
+                  passport   int                                 null comment 'series and number in the format 5612453765',
+                  male       tinyint(1)                          null comment 'man is true, a woman is false, not selected null',
+                  address    varchar(256)                        null,
+                  about      varchar(256)                        null comment 'additional information',
+                  created_at timestamp default CURRENT_TIMESTAMP not null,
+                  updated_at timestamp                           null,
+                  constraint users_id_uindex
+                      unique (id)
+              )
+                  comment 'User data table';
+              create index user_email_idx
+                  on users (email);
+              create index user_first_name_last_name_ftsidx
+                  on users (last_name, first_name);
+              alter table users
+                  add primary key (id);
+            EOF
+  backoffLimit: 1

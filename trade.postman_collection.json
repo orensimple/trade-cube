@@ -1,0 +1,272 @@
+{
+	"info": {
+		"_postman_id": "89c8177e-0aa2-4bd3-8181-24d359f80759",
+		"name": "trade",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User.Create",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "admin14@mail.ru",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "text"
+						},
+						{
+							"key": "phone",
+							"value": "1232134214",
+							"type": "text"
+						},
+						{
+							"key": "first_name",
+							"value": "Ivan",
+							"type": "text"
+						},
+						{
+							"key": "last_name",
+							"value": "Ivanov",
+							"type": "text"
+						},
+						{
+							"key": "passport",
+							"value": "12312434",
+							"type": "text"
+						},
+						{
+							"key": "address",
+							"value": "asdfadsfdasfsa",
+							"type": "text"
+						},
+						{
+							"key": "about",
+							"value": "adfsadf",
+							"type": "text"
+						},
+						{
+							"key": "male",
+							"value": "true",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://arch.homework/api/user/",
+					"protocol": "http",
+					"host": [
+						"arch",
+						"homework"
+					],
+					"path": [
+						"api",
+						"user",
+						""
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "admin2@wesionary.team",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "admin",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User.Get",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "login",
+							"value": "admin@wesionary.team",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://arch.homework/api/user/d2055ed0-a577-481a-996a-2cf31e3a20bd",
+					"protocol": "http",
+					"host": [
+						"arch",
+						"homework"
+					],
+					"path": [
+						"api",
+						"user",
+						"d2055ed0-a577-481a-996a-2cf31e3a20bd"
+					],
+					"query": [
+						{
+							"key": "login",
+							"value": "admin@wesionary.team",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "admin",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User.Update",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "admin13@mail.ru",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "text"
+						},
+						{
+							"key": "phone",
+							"value": "1232134214",
+							"type": "text"
+						},
+						{
+							"key": "first_name",
+							"value": "Ivan213",
+							"type": "text"
+						},
+						{
+							"key": "last_name",
+							"value": "Ivanov",
+							"type": "text"
+						},
+						{
+							"key": "passport",
+							"value": "12312434",
+							"type": "text"
+						},
+						{
+							"key": "address",
+							"value": "asdfadsfdasfsa",
+							"type": "text"
+						},
+						{
+							"key": "about",
+							"value": "adfsadf",
+							"type": "text"
+						},
+						{
+							"key": "male",
+							"value": "true",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "arch.homework/api/user/d2055ed0-a577-481a-996a-2cf31e3a20bd",
+					"host": [
+						"arch",
+						"homework"
+					],
+					"path": [
+						"api",
+						"user",
+						"d2055ed0-a577-481a-996a-2cf31e3a20bd"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "admin2@wesionary.team",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "admin",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User.Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "login",
+							"value": "admin@wesionary.team",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "arch.homework/api/user/d2055ed0-a577-481a-996a-2cf31e3a20bd",
+					"host": [
+						"arch",
+						"homework"
+					],
+					"path": [
+						"api",
+						"user",
+						"d2055ed0-a577-481a-996a-2cf31e3a20bd"
+					],
+					"query": [
+						{
+							"key": "login",
+							"value": "admin@wesionary.team",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "admin",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

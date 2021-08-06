@@ -1,0 +1,10 @@
+fullnameOverride: trade-mysql7
+
+auth: 
+  rootPassword: passwd
+  database: trade
+
+primary:
+  service:
+    type: NodePort
+    port: 3306
