@@ -9,5 +9,9 @@ build:
 deploy:
   kubectl:
     manifests:
+    - configmap.yaml
+    - secret.yaml
+    - initdb.yaml
     - deployment.yaml
     - service.yaml
+    - ingress.yaml
