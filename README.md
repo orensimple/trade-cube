@@ -5,14 +5,14 @@
 MySQL by HELM
 `helm install trade-mysql7 bitnami/mysql -f mysql.yaml`
 
-Job initDB
-`kubectl apply -f initdb.yaml`
-
 ConfigMap
 `kubectl apply -f configmap.yaml`
 
 Secret
 `kubectl apply -f secret.yaml`
+
+Job initDB
+`kubectl apply -f initdb.yaml`
 
 App
 `kubectl apply -f deployment.yaml`
