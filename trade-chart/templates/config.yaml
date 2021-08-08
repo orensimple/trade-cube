@@ -10,3 +10,12 @@ data:
     mysql_database: trade
     app_port: 80
     app_domain: localhost
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: trade-db-secret
+type: Opaque
+stringData:
+  db_password: passwd
+  db_user: root

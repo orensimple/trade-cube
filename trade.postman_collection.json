@@ -15,7 +15,7 @@
 					"formdata": [
 						{
 							"key": "email",
-							"value": "admin14@mail.ru",
+							"value": "admin12@mail.ru",
 							"type": "text"
 						},
 						{
@@ -112,7 +112,7 @@
 					]
 				},
 				"url": {
-					"raw": "http://arch.homework/api/user/d2055ed0-a577-481a-996a-2cf31e3a20bd",
+					"raw": "http://arch.homework/api/user/d84db1a4-4f6c-4871-9ffa-1b3564c44111",
 					"protocol": "http",
 					"host": [
 						"arch",
@@ -121,7 +121,7 @@
 					"path": [
 						"api",
 						"user",
-						"d2055ed0-a577-481a-996a-2cf31e3a20bd"
+						"d84db1a4-4f6c-4871-9ffa-1b3564c44111"
 					],
 					"query": [
 						{
@@ -195,7 +195,7 @@
 					]
 				},
 				"url": {
-					"raw": "arch.homework/api/user/d2055ed0-a577-481a-996a-2cf31e3a20bd",
+					"raw": "arch.homework/api/user/d84db1a4-4f6c-4871-9ffa-1b3564c44111",
 					"host": [
 						"arch",
 						"homework"
@@ -203,7 +203,7 @@
 					"path": [
 						"api",
 						"user",
-						"d2055ed0-a577-481a-996a-2cf31e3a20bd"
+						"d84db1a4-4f6c-4871-9ffa-1b3564c44111"
 					],
 					"query": [
 						{
@@ -262,6 +262,117 @@
 							"key": "password",
 							"value": "admin",
 							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Users.Mock",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "login",
+							"value": "admin@wesionary.team",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://arch.homework/api/users/mock",
+					"protocol": "http",
+					"host": [
+						"arch",
+						"homework"
+					],
+					"path": [
+						"api",
+						"users",
+						"mock"
+					],
+					"query": [
+						{
+							"key": "login",
+							"value": "admin@wesionary.team",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "admin",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Users.Search",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "login",
+							"value": "admin@wesionary.team",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://arch.homework/api/users/search/?last_name=I&first_name=I",
+					"protocol": "http",
+					"host": [
+						"arch",
+						"homework"
+					],
+					"path": [
+						"api",
+						"users",
+						"search",
+						""
+					],
+					"query": [
+						{
+							"key": "login",
+							"value": "admin@wesionary.team",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "admin",
+							"disabled": true
+						},
+						{
+							"key": "last_name",
+							"value": "I"
+						},
+						{
+							"key": "first_name",
+							"value": "I"
 						}
 					]
 				}

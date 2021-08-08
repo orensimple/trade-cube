@@ -1,0 +1,23 @@
+replicaCount: 1
+
+image:
+  repository: orensimple/trade-core-app
+  tag: latest
+
+service:
+  type: NodePort
+  port: 9000
+
+metrics:
+  serviceMonitor:
+    enabled: true
+  
+ingress:
+  enabled: true
+  hosts:
+    - host: arch.homework
+      paths: ["/"]
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true

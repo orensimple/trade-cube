@@ -3,11 +3,25 @@
 ## Install
 
 MySQL by HELM
-`helm install -n monitoring trade-mysql7 bitnami/mysql -f mysql.yaml`
+`helm install trade-mysql7 bitnami/mysql -f mysql.yaml`
 
-Trade App
-`helm install -n monitoring trade-app ./trade-chart`
+ConfigMap
+`kubectl apply -f configmap.yaml`
 
+Secret
+`kubectl apply -f secret.yaml`
+
+Job initDB
+`kubectl apply -f initdb.yaml`
+
+App
+`kubectl apply -f deployment.yaml`
+
+Service NodePort for app
+`kubectl apply -f service.yaml`
+
+Ingress
+`kubectl apply -f ingress.yaml`
 
 ## Checkout
 (http://arch.homework/health)
@@ -15,19 +29,6 @@ Trade App
 ## Postman collection
 trade.postman_collection.json
 (https://github.com/orensimple/trade-cube/blob/main/trade.postman_collection.json)
-
-## Load test
-`wrk -t2 -c100 -d600s -s random_search.lua http://arch.homework`
-
-random_search.lua
-(https://github.com/orensimple/trade-cube/blob/main/random_search.lua)
-
-result screnshot
-(https://github.com/orensimple/trade-cube/blob/main/load-test-screen)
-
-## Grafana dashboard
-dashboard_app.json
-(https://github.com/orensimple/trade-cube/blob/main/dashboard_app.json)
 
 
 ## About
