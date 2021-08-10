@@ -41,7 +41,7 @@ spec:
            - sh
            - "-c"
            - |
-           - "until mysql --host=trade-mysql7 --user={MYSQL_USER} --password={MYSQL_PASSWORD} --execute=\"SELECT 1;\"; do echo waiting for mysql; sleep 2; done;" 
+           - "until mysql --host=trade-mysql7-primary --user={MYSQL_USER} --password={MYSQL_PASSWORD} --execute=\"SELECT 1;\"; do echo waiting for mysql; sleep 2; done;" 
       containers:
       - name: post-install-job
         image: mysql:latest
@@ -60,7 +60,7 @@ spec:
           - sh
           - "-c"
           - |
-            mysql --host=trade-mysql7 --user=$MYSQL_USER --password=$MYSQL_PASSWORD <<'EOF'
+            mysql --host=trade-mysql7-primary --user=$MYSQL_USER --password=$MYSQL_PASSWORD <<'EOF'
               use trade;
               create table users
               (

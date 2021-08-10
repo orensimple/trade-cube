@@ -6,6 +6,8 @@ data:
   config.yaml: |
     bitbank_host: https://public.bitbank.cc
     mysql_host: trade-mysql7
+    mysql_replica_enabled: true
+    mysql_replica_count: 1
     mysql_port: 3306
     mysql_database: trade
     app_port: 80
