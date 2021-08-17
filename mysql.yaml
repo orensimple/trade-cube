@@ -42,7 +42,7 @@ primary:
     pid-file=/opt/bitnami/mysql/tmp/mysqld.pid
 
 secondary:
-  replicaCount: 2
+  replicaCount: 1
   configuration: |-
     [mysqld]
     default_authentication_plugin=mysql_native_password
@@ -74,6 +74,6 @@ secondary:
     port: 3306
 
 metrics:
-  enabled: true
+  enabled: false
   serviceMonitor:
-    enabled: true
+    enabled: false

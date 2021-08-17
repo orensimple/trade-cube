@@ -3,14 +3,21 @@
 ## Install
 
 MySQL by HELM
-`helm install -n monitoring trade-mysql7 bitnami/mysql -f mysql.yaml`
+`helm install trade-mysql7 bitnami/mysql -f mysql.yaml`
 
 Trade App
-`helm install -n monitoring trade-app ./trade-chart`
+`helm install trade-app ./trade-chart`
 
 
 ## Checkout
 (http://arch.homework/health)
+
+## Postman Test Auth collection
+
+`newman run trade-core-auth-test.postman_collection)`
+
+trade.postman_collection.json
+(https://github.com/orensimple/trade-cube/blob/main/trade-core-auth-test.postman_collection)
 
 ## Postman collection
 trade.postman_collection.json

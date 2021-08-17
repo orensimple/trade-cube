@@ -1,0 +1,223 @@
+architecture: replicaset
+
+auth:
+  ## @param auth.enabled Enable authentication
+  ## ref: https://docs.mongodb.com/manual/tutorial/enable-authentication/
+  ##
+  enabled: true
+  ## @param auth.rootPassword MongoDB&reg; root password
+  ## ref: https://github.com/bitnami/bitnami-docker-mongodb/blob/master/README.md#setting-the-root-password-on-first-run
+  ##
+  rootPassword: "rootpasswd"
+  ## MongoDB&reg; custom user and database
+  ## ref: https://github.com/bitnami/bitnami-docker-mongodb/blob/master/README.md#creating-a-user-and-database-on-first-run
+  ## @param auth.username MongoDB&reg; custom user (mandatory if `auth.database` is set)
+  ## @param auth.password MongoDB&reg; custom user password
+  ## @param auth.database MongoDB&reg; custom database
+  ##
+  username: "admin"
+  password: "passwd"
+  database: "trade"
+
+persistence:
+  enabled: false
+
+replicaCount: 2
+
+service:
+  type: ClusterIP
+  port: 27017
+
+externalAccess:
+  ## Enable Kubernetes external cluster access to MongoDB nodes
+  ##
+  enabled: false
+  ## External IPs auto-discovery configuration
+  ## An init container is used to auto-detect LB IPs or node ports by querying the K8s API
+  ## Note: RBAC might be required
+  ##
+  ## Parameters to configure K8s service(s) used to externally access MongoDB
+  ## A new service per broker will be created
+  ##
+  service:
+    ## Service type. Allowed values: LoadBalancer or NodePort
+    ##
+    type: LoadBalancer
+    ## Port used when service type is LoadBalancer
+    ##
+    port: 27017
+    ## Array of load balancer IPs for each MongoDB node. Length must be the same as replicaCount
+    ## Example:
+    ## loadBalancerIPs:
+    ##   - X.X.X.X
+    ##   - Y.Y.Y.Y
+    ##
+    loadBalancerIPs: []
+    ## Load Balancer sources
+    ## ref: https://kubernetes.io/docs/tasks/access-application-cluster/configure-cloud-provider-firewall/#restrict-access-for-loadbalancer-service
+    ## Example:
+    ## loadBalancerSourceRanges:
+    ## - 10.10.10.0/24
+    ##
+    loadBalancerSourceRanges: []
+    ## Array of node ports used for each MongoDB node. Length must be the same as replicaCount
+    ## Example:
+    ## nodePorts:
+    ##   - 30001
+    ##   - 30002
+    ##
+    nodePorts: []
+    ## When service type is NodePort, you can specify the domain used for MongoDB advertised hostnames.
+    ## If not specified, the container will try to get the kubernetes node external IP
+    ##
+    # domain: mydomain.com
+    ## Provide any additional annotations which may be required. Evaluated as a template
+    ##
+    annotations: {}
+
+##
+## MongoDB Arbiter parameters.
+##
+arbiter:
+  ## Enable deploying the MongoDB Arbiter
+  ##   https://docs.mongodb.com/manual/tutorial/add-replica-set-arbiter/
+  enabled: true
+
+  podSecurityContext:
+    enabled: true
+    fsGroup: 1001
+    ## sysctl settings
+    ## Example:
+    ## sysctls:
+    ## - name: net.core.somaxconn
+    ##   value: "10000"
+    ##
+    sysctls: []
+
+  ## MongoDB Arbiter containers' Security Context (only main container).
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
+  ##
+  containerSecurityContext:
+    enabled: true
+    runAsUser: 1001
+
+  ## MongoDB Arbiter containers' resource requests and limits.
+  ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+  ##
+  resources:
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    limits: {}
+    #   cpu: 100m
+    #   memory: 128Mi
+    requests: {}
+    #   cpu: 100m
+    #   memory: 128Mi
+
+  ## MongoDB Arbiter pods' liveness and readiness probes. Evaluated as a template.
+  ## ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes
+  ##
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+
+  ## Custom Liveness probes for MongoDB Arbiter pods
+  ##
+  customLivenessProbe: {}
+
+  ## Custom Rediness probes MongoDB Arbiter pods
+  ##
+  customReadinessProbe: {}
+
+  ## Add init containers to the MongoDB Arbiter pods.
+  ## Example:
+  ## initContainers:
+  ##   - name: your-image-name
+  ##     image: your-image
+  ##     imagePullPolicy: Always
+  ##     ports:
+  ##       - name: portname
+  ##         containerPort: 1234
+  ##
+  initContainers: {}
+
+  ## Add sidecars to the MongoDB Arbiter pods.
+  ## Example:
+  ## sidecars:
+  ##   - name: your-image-name
+  ##     image: your-image
+  ##     imagePullPolicy: Always
+  ##     ports:
+  ##       - name: portname
+  ##         containerPort: 1234
+  ##
+  sidecars: {}
+
+  ## extraVolumes and extraVolumeMounts allows you to mount other volumes on MongoDB Arbiter pods
+  ## Examples:
+  ## extraVolumeMounts:
+  ##   - name: extras
+  ##     mountPath: /usr/share/extras
+  ##     readOnly: true
+  ## extraVolumes:
+  ##   - name: extras
+  ##     emptyDir: {}
+  extraVolumeMounts: []
+  extraVolumes: []
+
+  ## MongoDB Arbiter Pod Disruption Budget configuration
+  ## ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
+  ##
+  pdb:
+    create: false
+    ## Min number of pods that must still be available after the eviction
+    ##
+    minAvailable: 1
+    ## Max number of pods that can be unavailable after the eviction
+    ##
+    # maxUnavailable: 1
+
+## ServiceAccount
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
+##
+serviceAccount:
+  ## Specifies whether a ServiceAccount should be created
+  ##
+  create: true
+  ## The name of the ServiceAccount to use.
+  ## If not set and create is true, a name is generated using the rabbitmq.fullname template
+  ##
+  # name:
+
+## Role Based Access
+## ref: https://kubernetes.io/docs/admin/authorization/rbac/
+##
+rbac:
+  ## Specifies whether RBAC rules should be created
+  ## binding MongoDB ServiceAccount to a role
+  ## that allows MongoDB pods querying the K8s API
+  ##
+  create: true
+
+podSecurityPolicy:
+  create: true
+
+## Prometheus Exporter / Metrics
+##
+metrics:
+  enabled: false
+  serviceMonitor:
+    enabled: false

@@ -6,11 +6,12 @@ image:
 
 service:
   type: NodePort
-  port: 9000
+  port: 80
 
 metrics:
+  enabled: false
   serviceMonitor:
-    enabled: true
+    enabled: false
   
 ingress:
   enabled: true
@@ -18,6 +19,6 @@ ingress:
     - host: arch.homework
       paths: ["/"]
   metrics:
-    enabled: true
+    enabled: false
     serviceMonitor:
-      enabled: true
+      enabled: false
