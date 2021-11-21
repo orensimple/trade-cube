@@ -1,0 +1,123 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}"
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      name: "{{ .Release.Name }}"
+      labels:
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    spec:
+      restartPolicy: Never
+      initContainers:
+        - name: check-db-ready
+          image: mysql:latest
+          env:
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: trade-db-secret
+                  key: db_user
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: trade-db-secret
+                  key: db_password
+          command:
+           - sh
+           - "-c"
+           - |
+           - "until mysql --host=trade-mysql7-primary --user={MYSQL_USER} --password={MYSQL_PASSWORD} --execute=\"SELECT 1;\"; do echo waiting for mysql; sleep 2; done;" 
+      containers:
+      - name: post-install-job
+        image: mysql:latest
+        env:
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                name: trade-db-secret
+                key: db_user
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: trade-db-secret
+                key: db_password
+        command:
+          - sh
+          - "-c"
+          - |
+            mysql --host=trade-mysql7-primary --user=$MYSQL_USER --password=$MYSQL_PASSWORD <<'EOF'
+              CREATE DATABASE orders;
+
+              USE orders;
+
+              create table instruments
+              (
+                  id            varchar(36)                         not null,
+                  currency_code varchar(36)                         not null,
+                  code          varchar(16)                         not null,
+                  name          varchar(32)                         not null,
+                  description   varchar(256)                        null,
+                  lot           int                                 not null comment 'the minimum quantity that can be sold at a time',
+                  type          text                                not null comment 'the type of financial instrument, for example - a currency pair, stocks, abligations, bonds (for simplicity, I did not put it into the directory)',
+                  created_at    timestamp default CURRENT_TIMESTAMP not null,
+                  updated_at    timestamp                           null,
+                  deleted_at    timestamp                           null,
+                  constraint instrument_code_uindex
+                      unique (code),
+                  constraint instrument_id_uindex
+                      unique (id)
+              );
+
+              create index instruments_code_index
+                  on instruments (code);
+
+              alter table instruments
+                  add primary key (id);
+
+
+              create table orders
+              (
+                  id            varchar(36)                         not null,
+                  account_id    varchar(36)                         not null,
+                  instrument_id varchar(36)                         not null,
+                  type          varchar(64)                         not null comment 'type of order, for example: buy, sell (for simplicity, I did not put it in the directory)',
+                  price         decimal                             not null comment 'the price at which the user wants to purchase the instrument',
+                  volume        int                                 not null comment 'number of lots',
+                  status        varchar(64)                         null comment 'order status, for example: completed, canceled (for simplicity, I did not put it into the directory)',
+                  created_at    timestamp default CURRENT_TIMESTAMP not null,
+                  updated_at    timestamp                           null,
+                  constraint orders_order_id_uindex
+                      unique (id),
+                  constraint orders_instruments_id_fk
+                      foreign key (instrument_id) references instruments (id)
+              )
+                  comment 'User order table';
+
+              create index orders_account_id_instrument_id_type_index
+                  on orders (account_id, instrument_id, type);
+
+              create index orders_instrument_id_type_status_created_at_index
+                  on orders (instrument_id, type, status, created_at);
+
+              alter table orders
+                  add primary key (id);
+
+              INSERT INTO `orders`.instruments (id, currency_code, code, name, description, lot, type, created_at, updated_at, deleted_at) VALUES ('c675fded-b46c-4980-b8ec-8e21071b5a39', 'RU', 'x5', 'Акции X5 Retail Group', 'Входит в состав АФК Система', 10, 'stock', '2021-11-08 19:50:01', null, null);
+            EOF
+
+  backoffLimit: 0

@@ -86,6 +86,21 @@ spec:
                   on users (last_name, first_name);
               alter table users
                   add primary key (id);
+              insert into trade.users (id, email, password, phone, first_name, last_name, passport, male, address, about, created_at, updated_at)  values ('f3bf75a9-ea4c-4f57-9161-cfa8f96e2d0b', 'admin@mail.ru', '$2a$04$Q65Ug0F8llqw4DOPZ13gu.iWR7pDu7zwEdg9SxElmdUQoKnpD2CGe', '+79228862029',  'Ivan', 'Ivanov', 324, 1, 'afs', '', '2021-11-17 07:23:19', null);
+              create table accounts
+              (
+                  id            varchar(36)  not null,
+                  user_id       varchar(36)  not null,
+                  account_id    varchar(36)  not null,
+                  currency_code varchar(256) null,
+                  primary key (user_id, account_id),
+                  constraint user_accounts_id_uindex
+                  unique (id),
+                  constraint user_accounts_users_id_fk
+                  foreign key (user_id) references users (id)
+              );
+              create index user_accounts_accounts_id_fk
+              on accounts (account_id);
             EOF
 
   backoffLimit: 0

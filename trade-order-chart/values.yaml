@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: orensimple/trade-core-app
+  repository: orensimple/trade-order-app
   tag: latest
 
 service:
@@ -14,11 +14,11 @@ metrics:
     enabled: true
   
 ingress:
-  enabled: true
+  enabled: false
   hosts:
     - host: arch.homework
       paths: ["/"]
   metrics:
-    enabled: true
+    enabled: false
     serviceMonitor:
-      enabled: true
+      enabled: false

@@ -7,7 +7,10 @@ MySQL by HELM
 
 Trade App
 `helm install trade-app ./trade-chart`
-
+Billing App
+`helm install trade-billing ./trade-billing-chart`
+Order App
+`helm install trade-order ./trade-order-chart`
 
 ## Checkout
 (http://arch.homework/health)

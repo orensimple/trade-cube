@@ -74,6 +74,6 @@ secondary:
     port: 3306
 
 metrics:
-  enabled: false
+  enabled: true
   serviceMonitor:
-    enabled: false
+    enabled: true

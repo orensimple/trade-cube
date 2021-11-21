@@ -1,25 +1,15 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: trade-app-config
+  name: trade-order-config
 data:
   config.yaml: |
     bitbank_host: https://public.bitbank.cc
     billing_host: http://trade-billing-trade-billing-chart:80
-    order_host: http://trade-order:80
     mysql_host: trade-mysql7
     mysql_replica_enabled: true
     mysql_replica_count: 1
     mysql_port: 3306
-    mysql_database: trade
+    mysql_database: orders
     app_port: 80
     app_domain: localhost
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: trade-db-secret
-type: Opaque
-stringData:
-  db_password: passwd
-  db_user: root
